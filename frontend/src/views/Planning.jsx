@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Card, Select, Input, Tag, Typography, Spin, Timeline, message } from 'antd';
+import { Card, Input, Tag, Typography, Spin, Timeline, message } from 'antd';
 import { generatePlanning } from '../services/api';
 
 const { Title, Text, Paragraph } = Typography;
-const { Option } = Select;
 
 function Planning() {
   const [formData, setFormData] = useState({
     destination: '',
     days: 3,
-    budget: '中等',
+    budget: 5000,
     preferences: []
   });
   const [loading, setLoading] = useState(false);
@@ -30,7 +29,6 @@ function Planning() {
     }
   }, []);
 
-  const budgetOptions = ['经济', '中等', '豪华'];
   const preferenceOptions = ['美食', '购物', '景点打卡', '休闲放松', '户外运动', '历史文化'];
 
   const handlePreferenceChange = (pref) => {
@@ -93,15 +91,14 @@ function Planning() {
         </div>
 
         <div style={{ marginBottom: 20 }}>
-          <Text strong style={{ color: '#e2e8f0' }}>预算</Text>
-          <Select
-            style={{ width: '100%', marginTop: 8 }}
+          <Text strong style={{ color: '#e2e8f0' }}>预算（元）</Text>
+          <Input
+            type="number"
+            style={{ marginTop: 8 }}
+            placeholder="例如：5000"
             value={formData.budget}
-            onChange={(value) => setFormData({ ...formData, budget: value })}
-            popupMatchSelectWidth={false}
-          >
-            {budgetOptions.map(b => <Option key={b} value={b}>{b}</Option>)}
-          </Select>
+            onChange={(e) => setFormData({ ...formData, budget: parseInt(e.target.value) || 0 })}
+          />
         </div>
 
         <div style={{ marginBottom: 20 }}>
